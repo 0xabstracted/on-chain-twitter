@@ -108,12 +108,12 @@ export type OnChainTwitter = {
     {
       "code": 6000,
       "name": "TopicTooLong",
-      "msg": " Topic length is greater than 69!!"
+      "msg": " Topic length is greater than 64!!"
     },
     {
       "code": 6001,
       "name": "ContentTooLong",
-      "msg": " Content length is greater than 420!!"
+      "msg": " Content length is greater than 512!!"
     }
   ]
 };
@@ -228,12 +228,12 @@ export const IDL: OnChainTwitter = {
     {
       "code": 6000,
       "name": "TopicTooLong",
-      "msg": " Topic length is greater than 69!!"
+      "msg": " Topic length is greater than 64!!"
     },
     {
       "code": 6001,
       "name": "ContentTooLong",
-      "msg": " Content length is greater than 420!!"
+      "msg": " Content length is greater than 512!!"
     }
   ]
 };
