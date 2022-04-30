@@ -102,15 +102,16 @@ pub struct DeleteTwitterAccount<'info>{
 }
 #[derive(Accounts)]
 pub struct GetNumberOfTweetsByUser<'info>{
-    #[account(mut, seeds = [b"twitter_user".as_ref(), author.key().as_ref()], bump = twitter_user_account.bump)]
+    #[account(seeds = [b"twitter_user".as_ref(), author.key().as_ref()], bump = twitter_user_account.bump)]
     pub twitter_user_account: Account<'info, TwitterUser>,
+    /// CHECK: This is not dangerous because we don't read or write from this account
     pub author: UncheckedAccount<'info>,
 }
 #[derive(Accounts)]
 pub struct SendTweet <'info>{
     #[account(mut,seeds = [b"twitter_user".as_ref(), author.key().as_ref()], bump = twitter_user_account.bump)]
     pub twitter_user_account: Account<'info, TwitterUser>,
-    #[account(init, payer = author, space = Tweet::LEN,seeds = [b"tweet_account".as_ref(), author.key().as_ref(),&twitter_user_account.tweet_count.to_le_bytes()], bump)]
+    #[account(init, payer = author, space = Tweet::LEN,seeds = [b"tweet_account".as_ref(), author.key().as_ref(),&(twitter_user_account.tweet_count+1).to_le_bytes()], bump)]
     pub tweet_account: Account<'info, Tweet>,
     #[account(mut)]
     pub author: Signer<'info>,
