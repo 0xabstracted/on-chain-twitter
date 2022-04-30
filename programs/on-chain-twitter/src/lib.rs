@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-declare_id!("7cNGAP6tHh8W1BMxBEuMVfBUs8ogFT5PwUsENJLVhhjs");
+declare_id!("5BAvFQDCEafYDwEdRut8VmFpQEA5gb78kSH55G82vMzB");
 
 #[program]
 pub mod on_chain_twitter {
@@ -85,7 +85,7 @@ pub struct SendTweet <'info>{
 
 #[derive(Accounts)]
 pub struct UpdateTweet <'info>{
-    #[account(mut,has_one = author, seeds = [b"tweet_author".as_ref(), author.key().as_ref()], bump = tweet_account.bump)]
+    #[account(mut,has_one = author, seeds = [b"tweet_author".as_ref()], bump = tweet_account.bump)]
     //#[account(mut, has_one = author)]
     pub tweet_account: Account<'info, Tweet>,
     pub author: Signer<'info>,
@@ -93,7 +93,7 @@ pub struct UpdateTweet <'info>{
 
 #[derive(Accounts)]
 pub struct DeleteTweet <'info>{
-    #[account(mut, has_one = author, seeds = [b"tweet_author".as_ref(), author.key().as_ref()], bump = tweet_account.bump, close = author)]
+    #[account(mut, has_one = author, seeds = [b"tweet_author".as_ref()], bump = tweet_account.bump, close = author)]
    // #[account(mut, has_one = author, close = author)]
     pub tweet_account: Account<'info, Tweet>,
     pub author: Signer<'info>,
