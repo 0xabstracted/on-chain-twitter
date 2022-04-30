@@ -9,7 +9,11 @@ pub mod on_chain_twitter {
     pub fn send_tweet(ctx: Context<SendTweet>, topic: String, content: String) -> Result<()> {
         let tweet = &mut ctx.accounts.tweet_account;
         let clock: Clock = Clock::get().unwrap();
-        msg!("abcd {}",*ctx.accounts.author.key);
+        msg!("&*ctx.accounts.author.key.to_string() {}",&*ctx.accounts.author.key.to_string());
+        msg!("B tweet.timestamp: {}",tweet.timestamp);
+        msg!("B tweet.topic: {}",tweet.topic);
+        msg!("B tweet.content: {}",tweet.content);
+        msg!("B tweet.bump: {}",tweet.bump);
         if topic.as_bytes().len() > 69 {
             return Err(ErrorCode::TopicTooLong.into())
         }
@@ -17,9 +21,15 @@ pub mod on_chain_twitter {
             return Err(ErrorCode::ContentTooLong.into())
         }
         tweet.timestamp = clock.unix_timestamp;
+        msg!("tweet.timestamp: {}",tweet.timestamp);
         tweet.topic = topic;
+        msg!("tweet.topic: {}",tweet.topic);
+        msg!("topic.as_bytes().len(): {}",tweet.topic.as_bytes().len());
         tweet.content = content;
+        msg!("tweet.content: {}",tweet.content);
+        msg!("content.as_bytes().len(): {}",tweet.content.as_bytes().len());
         tweet.bump = *ctx.bumps.get("tweet_account").unwrap();
+        msg!("tweet.bump: {}",tweet.bump);
         Ok(())
     }
     pub fn update_tweet(ctx: Context<UpdateTweet>, topic: String, content: String) -> Result<()> {
