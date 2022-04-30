@@ -30,7 +30,7 @@ pub mod on_chain_twitter {
     }
     
     pub fn get_number_of_tweets_by_user(ctx: Context<GetNumberOfTweetsByUser>) -> Result<u64>{
-        let twitter_user_account = &mut ctx.accounts.twitter_user_account;
+        let twitter_user_account =  &ctx.accounts.twitter_user_account;
         Ok(twitter_user_account.tweet_count)
     }
     pub fn delete_twitter_account(_ctx: Context<DeleteTwitterAccount>) -> Result<()> {
@@ -65,14 +65,17 @@ pub mod on_chain_twitter {
         if content.as_bytes().len() > 512 {
             return Err(ErrorCode::ContentTooLong.into())
         }
-        tweet.timestamp = clock.unix_timestamp;
         tweet.topic = topic;
         tweet.content = content;
         tweet.tweet_number = twitter_user_account.tweet_count;
+        tweet.timestamp = clock.unix_timestamp;
         twitter_user_account.last_interaction_timestamp = clock.unix_timestamp;
         Ok(())
     }
-    pub fn delete_tweet(_ctx: Context<DeleteTweet>) -> Result<()> {
+    pub fn delete_tweet(ctx: Context<DeleteTweet>) -> Result<()> {
+        let twitter_user_account:  &mut Account<TwitterUser> = &mut ctx.accounts.twitter_user_account;
+        let clock: Clock = Clock::get().unwrap();
+        twitter_user_account.last_interaction_timestamp = clock.unix_timestamp;
         Ok(())
     }
 }
@@ -118,7 +121,7 @@ pub struct SendTweet <'info>{
 pub struct UpdateTweet <'info>{
     #[account(mut, has_one = author, seeds = [b"twitter_user".as_ref(), author.key().as_ref()], bump = twitter_user_account.bump)]
     pub twitter_user_account: Account<'info, TwitterUser>,
-    #[account(mut,has_one = author, seeds = [b"tweet_account".as_ref(), author.key().as_ref(),&twitter_user_account.tweet_count.to_le_bytes()], bump = twitter_user_account.bump)]
+    #[account(mut,has_one = author, seeds = [b"tweet_account".as_ref(), author.key().as_ref(),&tweet_account.tweet_number.to_le_bytes()], bump = twitter_user_account.bump)]
     pub tweet_account: Account<'info, Tweet>,
     pub author: Signer<'info>,
 }
@@ -127,7 +130,7 @@ pub struct UpdateTweet <'info>{
 pub struct DeleteTweet <'info>{
     #[account(mut, has_one = author, seeds = [b"twitter_user".as_ref(), author.key().as_ref()], bump = twitter_user_account.bump)]
     pub twitter_user_account: Account<'info, TwitterUser>,
-    #[account(mut, has_one = author, seeds = [b"tweet_account".as_ref(), author.key().as_ref(),&twitter_user_account.tweet_count.to_le_bytes()], bump= twitter_user_account.bump, close = author)]
+    #[account(mut, has_one = author, seeds = [b"tweet_account".as_ref(), author.key().as_ref(),&tweet_account.tweet_number.to_le_bytes()], bump= twitter_user_account.bump, close = author)]
     pub tweet_account: Account<'info, Tweet>,
     pub author: Signer<'info>,
 }
