@@ -30,6 +30,9 @@ pub mod on_chain_twitter {
         msg!("A1 content.as_bytes().len(): {}",tweet.content.as_bytes().len());
         tweet.bump = *ctx.bumps.get("tweet_account").unwrap();
         msg!("A1 tweet.bump: {}",tweet.bump);
+        tweet.author = *ctx.accounts.author.key;
+        msg!("A1 tweet.author: {}",tweet.author);
+        msg!("A1 tweet.author: {}",tweet.author.to_string());
         Ok(())
     }
     pub fn update_tweet(ctx: Context<UpdateTweet>, topic: String, content: String) -> Result<()> {
@@ -82,7 +85,7 @@ pub struct SendTweet <'info>{
 
 #[derive(Accounts)]
 pub struct UpdateTweet <'info>{
-    #[account(mut, seeds = [b"tweet_author", author.key().as_ref()], bump = tweet_account.bump)]
+    #[account(mut,has_one = author, seeds = [b"tweet_author", author.key().as_ref()], bump = tweet_account.bump)]
     //#[account(mut, has_one = author)]
     pub tweet_account: Account<'info, Tweet>,
     pub author: Signer<'info>,
@@ -90,7 +93,7 @@ pub struct UpdateTweet <'info>{
 
 #[derive(Accounts)]
 pub struct DeleteTweet <'info>{
-    #[account(mut, seeds = [b"tweet_author", author.key().as_ref()], bump = tweet_account.bump, close = author)]
+    #[account(mut, has_one = author, seeds = [b"tweet_author", author.key().as_ref()], bump = tweet_account.bump, close = author)]
    // #[account(mut, has_one = author, close = author)]
     pub tweet_account: Account<'info, Tweet>,
     pub author: Signer<'info>,
@@ -101,6 +104,7 @@ pub struct Tweet{
     pub timestamp: i64,
     pub topic: String,
     pub content: String,
+    pub author: Pubkey,
     pub bump: u8,
 }
 const DISCRIMINATOR_LENGTH: usize = 8;
@@ -108,12 +112,14 @@ const MAX_TIMESTAMP_SIZE: usize = 8;
 const STRING_LENGTH_PREFIX: usize = 4;
 const MAX_TOPIC_LENGTH: usize = 69;
 const MAX_CONTENT_LENGTH: usize = 420;
+const MAX_AUTHOR_LENGTH: usize = 32;
 const SEED_LENGTH: usize = 1;
 impl Tweet{
     const LEN: usize = DISCRIMINATOR_LENGTH + 
                 MAX_TIMESTAMP_SIZE + 
                 STRING_LENGTH_PREFIX + MAX_TOPIC_LENGTH + 
                 STRING_LENGTH_PREFIX +  MAX_CONTENT_LENGTH + 
+                MAX_AUTHOR_LENGTH +
                 SEED_LENGTH;
 }
 
