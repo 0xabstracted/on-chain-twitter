@@ -14,10 +14,10 @@ pub mod on_chain_twitter {
         msg!("B1 tweet.topic: {}",tweet.topic);
         msg!("B1 tweet.content: {}",tweet.content);
         msg!("B1 tweet.bump: {}",tweet.bump);
-        if topic.as_bytes().len() > 69 {
+        if topic.as_bytes().len() > 64 {
             return Err(ErrorCode::TopicTooLong.into())
         }
-        if content.as_bytes().len() > 420 {
+        if content.as_bytes().len() > 512 {
             return Err(ErrorCode::ContentTooLong.into())
         }
         tweet.timestamp = clock.unix_timestamp;
@@ -44,10 +44,10 @@ pub mod on_chain_twitter {
         msg!("B2 topic.as_bytes().len(): {}",tweet.topic.as_bytes().len());
         msg!("B2 content.as_bytes().len(): {}",tweet.content.as_bytes().len());
         
-        if topic.as_bytes().len() > 69 {
+        if topic.as_bytes().len() > 64 {
             return Err(ErrorCode::TopicTooLong.into())
         }
-        if content.as_bytes().len() > 420 {
+        if content.as_bytes().len() > 512 {
             return Err(ErrorCode::ContentTooLong.into())
         }
         tweet.topic = topic;
@@ -77,7 +77,7 @@ pub mod on_chain_twitter {
 pub struct SendTweet <'info>{
     #[account(mut)]
     pub author: Signer<'info>,
-    #[account(init, payer = author, space = Tweet::LEN, seeds = [b"tweet_author", author.key().as_ref()], bump)]
+    #[account(init, payer = author, space = Tweet::LEN, seeds = [b"tweet_author".as_ref(), author.key().as_ref()], bump)]
     //#[account(init, payer = author, space = Tweet::LEN, seeds = [b"tweet_author"], bump)]
     pub tweet_account: Account<'info, Tweet>,
     pub system_program: Program<'info, System>,
@@ -85,7 +85,7 @@ pub struct SendTweet <'info>{
 
 #[derive(Accounts)]
 pub struct UpdateTweet <'info>{
-    #[account(mut,has_one = author, seeds = [b"tweet_author", author.key().as_ref()], bump = tweet_account.bump)]
+    #[account(mut,has_one = author, seeds = [b"tweet_author".as_ref(), author.key().as_ref()], bump = tweet_account.bump)]
     //#[account(mut, has_one = author)]
     pub tweet_account: Account<'info, Tweet>,
     pub author: Signer<'info>,
@@ -93,7 +93,7 @@ pub struct UpdateTweet <'info>{
 
 #[derive(Accounts)]
 pub struct DeleteTweet <'info>{
-    #[account(mut, has_one = author, seeds = [b"tweet_author", author.key().as_ref()], bump = tweet_account.bump, close = author)]
+    #[account(mut, has_one = author, seeds = [b"tweet_author".as_ref(), author.key().as_ref()], bump = tweet_account.bump, close = author)]
    // #[account(mut, has_one = author, close = author)]
     pub tweet_account: Account<'info, Tweet>,
     pub author: Signer<'info>,
@@ -110,8 +110,8 @@ pub struct Tweet{
 const DISCRIMINATOR_LENGTH: usize = 8;
 const MAX_TIMESTAMP_SIZE: usize = 8;
 const STRING_LENGTH_PREFIX: usize = 4;
-const MAX_TOPIC_LENGTH: usize = 69;
-const MAX_CONTENT_LENGTH: usize = 420;
+const MAX_TOPIC_LENGTH: usize = 64;
+const MAX_CONTENT_LENGTH: usize = 512;
 const MAX_AUTHOR_LENGTH: usize = 32;
 const SEED_LENGTH: usize = 1;
 impl Tweet{
