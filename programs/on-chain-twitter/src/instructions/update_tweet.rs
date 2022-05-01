@@ -4,9 +4,9 @@ use oct_common::error::ErrorCode;
 
 #[derive(Accounts)]
 pub struct UpdateTweet <'info>{
-    #[account(mut, has_one = author, seeds = [b"twitter_user".as_ref(), author.key().as_ref()], bump = twitter_user_account.bump)]
+    #[account(mut, has_one = author, seeds = [b"twitter-user".as_ref(), author.key().as_ref()], bump = twitter_user_account.bump)]
     pub twitter_user_account: Account<'info, TwitterUser>,
-    #[account(mut,has_one = author, seeds = [b"tweet_account".as_ref(), author.key().as_ref(),&tweet_account.tweet_number.to_le_bytes()], bump = twitter_user_account.bump)]
+    #[account(mut,has_one = author, seeds = [b"tweet-account".as_ref(), author.key().as_ref(),&tweet_account.tweet_number.to_le_bytes()], bump = twitter_user_account.bump)]
     pub tweet_account: Account<'info, Tweet>,
     pub author: Signer<'info>,
 }

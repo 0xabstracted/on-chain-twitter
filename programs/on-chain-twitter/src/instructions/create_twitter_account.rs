@@ -7,7 +7,7 @@ use oct_common::error::ErrorCode;
 pub struct CreateTwitterAccount <'info>{
     #[account(mut)]
     pub author: Signer<'info>,
-    #[account(init, payer = author, space = 8 + std::mem::size_of::<TwitterUser>(), seeds = [b"twitter_user".as_ref(), author.key().as_ref()], bump)]
+    #[account(init, payer = author, space = 8 + std::mem::size_of::<TwitterUser>(), seeds = [b"twitter-user".as_ref(), author.key().as_ref()], bump)]
     pub twitter_user_account: Account<'info, TwitterUser>,
     pub system_program: Program<'info, System>,
 }

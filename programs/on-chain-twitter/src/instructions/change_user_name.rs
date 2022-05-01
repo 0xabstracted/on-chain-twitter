@@ -5,7 +5,7 @@ use oct_common::error::ErrorCode;
 #[derive(Accounts)]
 pub struct ChangeUserName<'info>{
     pub author: Signer<'info>,
-    #[account(mut, seeds = [b"twitter_user".as_ref(), author.key().as_ref()], bump = twitter_user_account.bump)]
+    #[account(mut, seeds = [b"twitter-user".as_ref(), author.key().as_ref()], bump = twitter_user_account.bump)]
     pub twitter_user_account: Account<'info, TwitterUser>,
 }
 
