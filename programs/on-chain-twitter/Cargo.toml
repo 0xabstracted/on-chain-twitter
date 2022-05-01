@@ -1,12 +1,13 @@
 [package]
 name = "on-chain-twitter"
 version = "0.1.0"
-description = "Created with Anchor"
+description = "Attempt on building small scale Twitter on Solana"
 edition = "2021"
 
 [lib]
 crate-type = ["cdylib", "lib"]
 name = "on_chain_twitter"
+doctest = false
 
 [features]
 no-entrypoint = []
@@ -19,4 +20,6 @@ default = []
 overflow-checks = true
 
 [dependencies]
-anchor-lang = "0.24.2"
+anchor-lang = {version = "0.24.2", features = ["init-if-needed"]}
+oct_common = {path = '../../lib/oct_common'}
+proc_macros = {path = '../../lib/proc_macros'}
