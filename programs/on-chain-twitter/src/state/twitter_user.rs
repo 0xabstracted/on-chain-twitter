@@ -14,7 +14,7 @@ const MAX_TIMESTAMP_SIZE: usize = 8;
 const STRING_LENGTH_PREFIX: usize = 4;
 const MAX_TWEET_COUNT_SIZE: usize = 1;
 const MAX_AUTHORITY_LENGTH: usize = 32;
-const MAX_USERNAME_LENGTH: usize = 64 * 4;
+const MAX_USERNAME_LENGTH: usize = 64 ;
 const BUMP_LENGTH: usize = 1;
 impl TwitterUser{
     pub const LEN: usize =  DISCRIMINATOR_LENGTH 

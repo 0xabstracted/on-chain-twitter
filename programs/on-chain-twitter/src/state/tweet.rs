@@ -12,8 +12,8 @@ pub struct Tweet{
 const DISCRIMINATOR_LENGTH: usize = 8;
 const MAX_TIMESTAMP_SIZE: usize = 8;
 const STRING_LENGTH_PREFIX: usize = 4;
-const MAX_TOPIC_LENGTH: usize = 64 *4 ;
-const MAX_CONTENT_LENGTH: usize = 512 * 4;
+const MAX_TOPIC_LENGTH: usize = 64  ;
+const MAX_CONTENT_LENGTH: usize = 512 ;
 const MAX_AUTHOR_LENGTH: usize = 32;
 const MAX_TWEETS_PER_USER: usize = 1;
 impl Tweet{
