@@ -28,6 +28,17 @@ pub mod on_chain_twitter {
         twitter_user_account.last_interaction_timestamp = clock.unix_timestamp;
         Ok(())
     }
+    pub fn transfer_ownership_user_account(ctx: Context<TransferOwnershipUserAccount>, new_owner: Pubkey) -> Result<()>{
+        let twitter_user_account = &mut ctx.accounts.twitter_user_account;
+        let clock: Clock = Clock::get().unwrap();
+        //if new_owner.as_bytes().len() > 64 {
+         //   return Err(ErrorCode::NewUsernameTooLong.into())    
+        //  
+          
+        twitter_user_account.author = new_owner;
+        twitter_user_account.last_interaction_timestamp = clock.unix_timestamp;
+        Ok(())
+    }
     
     pub fn get_number_of_tweets_by_user(ctx: Context<GetNumberOfTweetsByUser>) -> Result<u64>{
         let twitter_user_account =  &ctx.accounts.twitter_user_account;
@@ -82,34 +93,40 @@ pub mod on_chain_twitter {
 
 #[derive(Accounts)]
 pub struct CreateTwitterAccount <'info>{
+    #[account(init, payer = author, space = TwitterUser::LEN, seeds = [b"twitter_user", author.key().as_ref()], bump)]
+    pub twitter_user_account: Account<'info, TwitterUser>,
     #[account(mut)]
     pub author: Signer<'info>,
-    #[account(init, payer = author, space = TwitterUser::LEN, seeds = [b"twitter_user".as_ref(), author.key().as_ref()], bump)]
-    pub twitter_user_account: Account<'info, TwitterUser>,
     pub system_program: Program<'info, System>,
 }
 #[derive(Accounts)]
 pub struct ChangeUserName <'info>{
-    #[account(mut, has_one = author, seeds = [b"twitter_user".as_ref(),author.key().as_ref()], bump = twitter_user_account.bump)]
+    #[account(mut, has_one = author, seeds = [b"twitter_user",author.key().as_ref()], bump = twitter_user_account.bump)]
     pub twitter_user_account: Account<'info, TwitterUser>,
     pub author: Signer<'info>,
 }
 #[derive(Accounts)]
 pub struct DeleteTwitterAccount<'info>{
-    #[account(mut, has_one = author, seeds = [b"twitter_user".as_ref(), author.key().as_ref()], bump = twitter_user_account.bump, close = author)]
+    #[account(mut, has_one = author, seeds = [b"twitter_user", author.key().as_ref()], bump = twitter_user_account.bump, close = author)]
     pub twitter_user_account: Account<'info, TwitterUser>,
     pub author: Signer<'info>,
 }
 #[derive(Accounts)]
 pub struct GetNumberOfTweetsByUser<'info>{
-    #[account(seeds = [b"twitter_user".as_ref(), author.key().as_ref()], bump = twitter_user_account.bump)]
+    #[account(seeds = [b"twitter_user", author.key().as_ref()], bump = twitter_user_account.bump)]
     pub twitter_user_account: Account<'info, TwitterUser>,
     /// CHECK: This is not dangerous because we don't read or write from this account
     pub author: UncheckedAccount<'info>,
 }
 #[derive(Accounts)]
+pub struct TransferOwnershipUserAccount<'info>{
+    #[account(mut, has_one= author, seeds = [b"twitter_user", author.key().as_ref()], bump = twitter_user_account.bump)]
+    pub twitter_user_account: Account<'info, TwitterUser>,
+    pub author: Signer<'info>,
+}
+#[derive(Accounts)]
 pub struct SendTweet <'info>{
-    #[account(mut,seeds = [b"twitter_user".as_ref(), author.key().as_ref()], bump = twitter_user_account.bump)]
+    #[account(mut,seeds = [b"twitter_user", author.key().as_ref()], bump = twitter_user_account.bump)]
     pub twitter_user_account: Account<'info, TwitterUser>,
     #[account(init, payer = author, space = Tweet::LEN,seeds = [b"tweet_account".as_ref(), author.key().as_ref(),&(twitter_user_account.tweet_count+1).to_le_bytes()], bump)]
     pub tweet_account: Account<'info, Tweet>,
@@ -120,7 +137,7 @@ pub struct SendTweet <'info>{
 
 #[derive(Accounts)]
 pub struct UpdateTweet <'info>{
-    #[account(mut, has_one = author, seeds = [b"twitter_user".as_ref(), author.key().as_ref()], bump = twitter_user_account.bump)]
+    #[account(mut, has_one = author, seeds = [b"twitter_user", author.key().as_ref()], bump = twitter_user_account.bump)]
     pub twitter_user_account: Account<'info, TwitterUser>,
     #[account(mut,has_one = author, seeds = [b"tweet_account".as_ref(), author.key().as_ref(),&tweet_account.tweet_number.to_le_bytes()], bump = twitter_user_account.bump)]
     pub tweet_account: Account<'info, Tweet>,
@@ -129,7 +146,7 @@ pub struct UpdateTweet <'info>{
 
 #[derive(Accounts)]
 pub struct DeleteTweet <'info>{
-    #[account(mut, has_one = author, seeds = [b"twitter_user".as_ref(), author.key().as_ref()], bump = twitter_user_account.bump)]
+    #[account(mut, has_one = author, seeds = [b"twitter_user", author.key().as_ref()], bump = twitter_user_account.bump)]
     pub twitter_user_account: Account<'info, TwitterUser>,
     #[account(mut, has_one = author, seeds = [b"tweet_account".as_ref(), author.key().as_ref(),&tweet_account.tweet_number.to_le_bytes()], bump= twitter_user_account.bump, close = author)]
     pub tweet_account: Account<'info, Tweet>,
