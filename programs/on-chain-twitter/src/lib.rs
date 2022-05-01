@@ -93,21 +93,21 @@ pub mod on_chain_twitter {
 
 #[derive(Accounts)]
 pub struct CreateTwitterAccount <'info>{
-    #[account(init, payer = author, space = TwitterUser::LEN, seeds = [b"twitter_user", author.key().as_ref()], bump)]
-    pub twitter_user_account: Account<'info, TwitterUser>,
     #[account(mut)]
     pub author: Signer<'info>,
+   #[account(init, payer = author, space = TwitterUser::LEN, seeds = [b"twitter_user", author.key().as_ref()], bump)]
+    pub twitter_user_account: Account<'info, TwitterUser>,
     pub system_program: Program<'info, System>,
 }
 #[derive(Accounts)]
-pub struct ChangeUserName <'info>{
-    #[account(mut, has_one = author, seeds = [b"twitter_user",author.key().as_ref()], bump = twitter_user_account.bump)]
-    pub twitter_user_account: Account<'info, TwitterUser>,
+pub struct ChangeUserName<'info>{
     pub author: Signer<'info>,
+    #[account(mut, seeds = [b"twitter_user",author.key().as_ref()], bump = twitter_user_account.bump)]
+    pub twitter_user_account: Account<'info, TwitterUser>,
 }
 #[derive(Accounts)]
 pub struct DeleteTwitterAccount<'info>{
-    #[account(mut, has_one = author, seeds = [b"twitter_user", author.key().as_ref()], bump = twitter_user_account.bump, close = author)]
+    #[account(mut, seeds = [b"twitter_user",author.key().as_ref()], bump = twitter_user_account.bump, close = author)]
     pub twitter_user_account: Account<'info, TwitterUser>,
     pub author: Signer<'info>,
 }
