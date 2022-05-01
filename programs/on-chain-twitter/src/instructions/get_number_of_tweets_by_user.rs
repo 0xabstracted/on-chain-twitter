@@ -9,7 +9,7 @@ pub struct GetNumberOfTweetsByUser<'info>{
     pub twitter_user_account: Account<'info, TwitterUser>,
 }
 
-pub fn handler(ctx: Context<GetNumberOfTweetsByUser>) -> Result<u64>{
+pub fn handler(ctx: Context<GetNumberOfTweetsByUser>) -> Result<u8>{
     let twitter_user_account =  &ctx.accounts.twitter_user_account;
     Ok(twitter_user_account.tweet_count)
 }
