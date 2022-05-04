@@ -12,6 +12,7 @@ pub struct Tweet{
 //    pub tweet_number: u32,
     pub tweet_number: u8,
     pub bump: u8,
+    _reserved: [u8; 10],
 }
 const DISCRIMINATOR_LENGTH: usize = 8;
 const MAX_TIMESTAMP_SIZE: usize = 8;
