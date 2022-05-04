@@ -6,6 +6,7 @@ pub mod delete_twitter_account;
 pub mod send_tweet;
 pub mod update_tweet;
 pub mod delete_tweet;
+pub mod update_next_address;
 
 pub use create_twitter_account::*;
 pub use change_user_name::*;
@@ -15,3 +16,4 @@ pub use delete_twitter_account::*;
 pub use send_tweet::*;
 pub use update_tweet::*;
 pub use delete_tweet::*;
+pub use update_next_address::*;

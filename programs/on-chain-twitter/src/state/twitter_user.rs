@@ -3,25 +3,31 @@ use anchor_lang::prelude::*;
 #[repr(C)]
 #[account]
 pub struct TwitterUser{
+    //pub tweet_count: u64,
+    //pub tweet_count: u32,
     pub tweet_count: u8,
     pub author: Pubkey,
     pub username: String,
-    pub last_interaction_timestamp: i64,    
+    pub last_interaction_timestamp: i64, 
+    pub next_address: Pubkey,   
     pub bump: u8,
 }
 const DISCRIMINATOR_LENGTH: usize = 8;
-const MAX_TIMESTAMP_SIZE: usize = 8;
-const STRING_LENGTH_PREFIX: usize = 4;
+//const MAX_TWEET_COUNT_SIZE: usize = 8;
+//const MAX_TWEET_COUNT_SIZE: usize = 4;
 const MAX_TWEET_COUNT_SIZE: usize = 1;
-const MAX_AUTHORITY_LENGTH: usize = 32;
+const MAX_PUBKEY_LENGTH: usize = 32;
+const STRING_LENGTH_PREFIX: usize = 4;
 const MAX_USERNAME_LENGTH: usize = 64 ;
+const MAX_TIMESTAMP_SIZE: usize = 8; 
 const BUMP_LENGTH: usize = 1;
 impl TwitterUser{
     pub const LEN: usize =  DISCRIMINATOR_LENGTH 
                 + MAX_TWEET_COUNT_SIZE
-                + MAX_AUTHORITY_LENGTH
+                + MAX_PUBKEY_LENGTH
                 + STRING_LENGTH_PREFIX + MAX_USERNAME_LENGTH
                 + MAX_TIMESTAMP_SIZE
+                + MAX_PUBKEY_LENGTH
                 + BUMP_LENGTH;
 }
 

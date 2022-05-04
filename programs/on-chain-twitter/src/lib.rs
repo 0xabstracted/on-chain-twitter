@@ -18,6 +18,8 @@ pub mod on_chain_twitter {
     pub fn transfer_ownership_user_account(ctx: Context<TransferOwnershipUserAccount>, new_owner: Pubkey) -> Result<()>{
         instructions::transfer_ownership_user_account::handler(ctx, new_owner)
     }
+    //pub fn get_number_of_tweets_by_user(ctx: Context<GetNumberOfTweetsByUser>) -> Result<u64>{
+    //pub fn get_number_of_tweets_by_user(ctx: Context<GetNumberOfTweetsByUser>) -> Result<u32>{
     pub fn get_number_of_tweets_by_user(ctx: Context<GetNumberOfTweetsByUser>) -> Result<u8>{
         instructions::get_number_of_tweets_by_user::handler(ctx)
     }
@@ -32,6 +34,9 @@ pub mod on_chain_twitter {
     }
     pub fn delete_tweet(ctx: Context<DeleteTweet>) -> Result<()> {
         instructions::delete_tweet::handler(ctx)
+    }
+    pub fn update_next_address(ctx: Context<UpdateNextAddress>, next_address: Pubkey) -> Result<()>{
+        instructions::update_next_address::handler(ctx, next_address)
     }
 }
 
