@@ -13,7 +13,7 @@ pub struct SendTweet <'info>{
     #[account(
         init, 
         payer = author, 
-        space = Tweet::LEN,
+        space = 8 + Tweet::LEN,
         seeds = [b"tweet-account".as_ref(), author.key().as_ref(), twitter_user.next_address.key().as_ref()],
         bump
     )]

@@ -13,7 +13,6 @@ pub struct TwitterUser{
     pub tweet_count: u8,
     _reserved: [u8; 10],
 }
-const DISCRIMINATOR_LENGTH: usize = 8;
 //const MAX_TWEET_COUNT_SIZE: usize = 8;
 //const MAX_TWEET_COUNT_SIZE: usize = 4;
 const MAX_PUBKEY_LENGTH: usize = 32;
@@ -25,8 +24,7 @@ const BUMP_LENGTH: usize = 1;
 const RESERVED_SIZE: usize = 10;
 
 impl TwitterUser{
-    pub const LEN: usize =  DISCRIMINATOR_LENGTH 
-                + MAX_TWEET_COUNT_SIZE
+    pub const LEN: usize = MAX_TWEET_COUNT_SIZE
                 + MAX_PUBKEY_LENGTH
                 + STRING_LENGTH_PREFIX + MAX_USERNAME_LENGTH
                 + MAX_TIMESTAMP_SIZE

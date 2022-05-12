@@ -10,7 +10,7 @@ pub struct CreateTwitterAccount <'info>{
     #[account(
         init, 
         payer = author, 
-        space = TwitterUser::LEN, 
+        space = 8 + TwitterUser::LEN, 
         seeds = [b"twitter-user".as_ref(), author.key().as_ref()], 
         bump
     )]

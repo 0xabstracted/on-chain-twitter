@@ -25,7 +25,7 @@ describe("on-chain-twitter", () => {
                     .createTwitterAccount("abstracted")
                     .accounts({
         author: provider.wallet.publicKey,
-        twitterUserAccount: twitterUserPDA,
+        twitterUser: twitterUserPDA,
     }).rpc();
     expect((await program.account.twitterUser.fetch(twitterUserPDA)).username).to.equal("abstracted");
     const twitterUsers = await program.account.twitterUser.all();
@@ -50,7 +50,7 @@ describe("on-chain-twitter", () => {
                     .createTwitterAccount("abstracted")
                     .accounts({
         author: provider.wallet.publicKey,
-        twitterUserAccount: twitterUserPDA,
+        twitterUser: twitterUserPDA,
     }).rpc();
     expect((await program.account.twitterUser.fetch(twitterUserPDA)).username).to.equal("abstracted");
   
@@ -69,7 +69,7 @@ describe("on-chain-twitter", () => {
                     .createTwitterAccount("Bhags")
                     .accounts({
         author: provider.wallet.publicKey,
-        twitterUserAccount: twitterUserPDA,
+        twitterUser: twitterUserPDA,
     }).rpc();
     expect((await program.account.twitterUser.fetch(twitterUserPDA)).username).to.equal("Bhags");
   
@@ -88,7 +88,7 @@ describe("on-chain-twitter", () => {
                     .changeUserName("lazytrader")
                     .accounts({
       author: provider.wallet.publicKey,
-      twitterUserAccount: twitterUserPDA,                  
+      twitterUser: twitterUserPDA,                  
     }).rpc();
     console.log("changeUserName");
     const twitterUsers = await program.account.twitterUser.all();
@@ -111,7 +111,7 @@ describe("on-chain-twitter", () => {
                     .deleteTwitterAccount()
                     .accounts({
       author: provider.wallet.publicKey,
-      twitterUserAccount: twitterUserPDA,                  
+      twitterUser: twitterUserPDA,                  
     }).rpc();
     expect(await program.account.twitterUser.fetch(twitterUserPDA));
     console.log("5. Your transaction signature", tx);
@@ -152,7 +152,7 @@ describe("on-chain-twitter", () => {
                           .updateNextAddress(nextTweetAddress.publicKey)
                           .accounts({
       author:provider.wallet.publicKey,
-      twitterUserAccount: twitterUserPDA,  
+      twitterUser: twitterUserPDA,  
                           }).rpc();
       const [tweetAccountPDA, tweetAccountBump] = await PublicKey.findProgramAddress(
       [
@@ -166,8 +166,8 @@ describe("on-chain-twitter", () => {
     const tx = await program.methods
                     .sendTweet("First Topic","First Tweet")
                     .accounts({
-      twitterUserAccount: twitterUserPDA,
-      tweetAccount: tweetAccountPDA,
+      twitterUser: twitterUserPDA,
+      tweet: tweetAccountPDA,
       author: provider.wallet.publicKey,
     }).rpc();
     console.log("6. Your transaction signature", tx);
@@ -189,7 +189,7 @@ describe("on-chain-twitter", () => {
                           .updateNextAddress(nextTweetAddress1.publicKey)
                           .accounts({
       author:provider.wallet.publicKey,
-      twitterUserAccount: twitterUserPDA,  
+      twitterUser: twitterUserPDA,  
                           }).rpc();
       const [tweetAccountPDA1, tweetAccountBump1] = await PublicKey.findProgramAddress(
       [
@@ -203,8 +203,8 @@ describe("on-chain-twitter", () => {
     const tx1 = await program.methods
                     .sendTweet("First Topic","Second Tweet")
                     .accounts({
-      twitterUserAccount: twitterUserPDA,
-      tweetAccount: tweetAccountPDA1,
+      twitterUser: twitterUserPDA,
+      tweet: tweetAccountPDA1,
       author: provider.wallet.publicKey,
     }).rpc();
     console.log("sendTweet");
@@ -255,7 +255,7 @@ describe("on-chain-twitter", () => {
                           .updateNextAddress(nextTweetAddress.publicKey)
                           .accounts({
       author:provider.wallet.publicKey,
-      twitterUserAccount: twitterUserPDA,  
+      twitterUser: twitterUserPDA,  
                           }).rpc();
       
       const [tweetAccountPDA, tweetAccountBump] = await PublicKey.findProgramAddress(
@@ -270,8 +270,8 @@ describe("on-chain-twitter", () => {
     const tx = await program.methods
                     .updateTweet("First Updated Topic","First Tweet")
                     .accounts({
-      twitterUserAccount: twitterUserPDA,
-      tweetAccount: tweetAccountPDA,
+      twitterUser: twitterUserPDA,
+      tweet: tweetAccountPDA,
       author: provider.wallet.publicKey,
     }).rpc();
     console.log("7. Your transaction signature", tx);
@@ -292,7 +292,7 @@ describe("on-chain-twitter", () => {
                       .updateNextAddress(nextTweetAddress1.publicKey)
                       .accounts({
         author:provider.wallet.publicKey,
-        twitterUserAccount: twitterUserPDA,  
+        twitterUser: twitterUserPDA,  
       }).rpc();
 
       const [tweetAccountPDA1, tweetAccountBump1] = await PublicKey.findProgramAddress(
@@ -306,8 +306,8 @@ describe("on-chain-twitter", () => {
     const tx1 = await program.methods
                     .updateTweet("First Topic","Second Updated Tweet")
                     .accounts({
-      twitterUserAccount: twitterUserPDA,
-      tweetAccount: tweetAccountPDA1,
+      twitterUser: twitterUserPDA,
+      tweet: tweetAccountPDA1,
       author: provider.wallet.publicKey,
     }).rpc();
     console.log("updateTweet");

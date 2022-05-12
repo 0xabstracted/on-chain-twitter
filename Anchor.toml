@@ -1,13 +1,13 @@
 [features]
 seeds = false
-[programs.localnet]
+[programs.devnet]
 on_chain_twitter = "5BAvFQDCEafYDwEdRut8VmFpQEA5gb78kSH55G82vMzB"
 
 [registry]
 url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "localnet"
+cluster = "devnet"
 wallet = "/home/abstracted/solana-wallet/dev1.json"
 
 [scripts]

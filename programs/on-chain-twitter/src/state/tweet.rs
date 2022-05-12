@@ -13,7 +13,6 @@ pub struct Tweet{
     pub bump: u8,
     _reserved: [u8; 10],
 }
-const DISCRIMINATOR_LENGTH: usize = 8;
 const MAX_TIMESTAMP_SIZE: usize = 8;
 const STRING_LENGTH_PREFIX: usize = 4;
 const MAX_TOPIC_LENGTH: usize = 64;
@@ -25,8 +24,7 @@ const MAX_TWEET_NUMBER_SIZE: usize = 1;
 const BUMP_LENGTH: usize = 1;
 const RESERVED_SIZE: usize = 10;
 impl Tweet{
-    pub const LEN: usize = DISCRIMINATOR_LENGTH 
-                + MAX_PUBKEY_LENGTH
+    pub const LEN: usize = MAX_PUBKEY_LENGTH
                 + MAX_TIMESTAMP_SIZE 
                 + STRING_LENGTH_PREFIX + MAX_TOPIC_LENGTH 
                 + STRING_LENGTH_PREFIX +  MAX_CONTENT_LENGTH 
