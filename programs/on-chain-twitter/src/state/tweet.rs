@@ -1,5 +1,4 @@
 use anchor_lang::prelude::*;
-
 #[repr(C)]
 #[account]
 pub struct Tweet{
@@ -24,6 +23,7 @@ const MAX_PUBKEY_LENGTH: usize = 32;
 //const MAX_TWEET_NUMBER_SIZE: usize = 4;
 const MAX_TWEET_NUMBER_SIZE: usize = 1;
 const BUMP_LENGTH: usize = 1;
+const RESERVED_SIZE: usize = 10;
 impl Tweet{
     pub const LEN: usize = DISCRIMINATOR_LENGTH 
                 + MAX_PUBKEY_LENGTH
@@ -32,5 +32,6 @@ impl Tweet{
                 + STRING_LENGTH_PREFIX +  MAX_CONTENT_LENGTH 
                 + MAX_PUBKEY_LENGTH
                 + MAX_TWEET_NUMBER_SIZE
-                + BUMP_LENGTH;
+                + BUMP_LENGTH
+                + RESERVED_SIZE;
 }

@@ -1,10 +1,13 @@
 use anchor_lang::prelude::*;
+
+pub mod instructions;
+pub mod state;
+
+
 use instructions::*;
 
 declare_id!("5BAvFQDCEafYDwEdRut8VmFpQEA5gb78kSH55G82vMzB");
 
-pub mod instructions;
-pub mod state;
 
 #[program]
 pub mod on_chain_twitter {

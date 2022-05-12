@@ -229,8 +229,8 @@ describe("on-chain-twitter", () => {
     );
       let twitter_accounts = await program.account.twitterUser.all();
       console.log("twitter accpunts",twitter_accounts);
-      let tweet_accounts = await program.account.tweet.all();
-      console.log("tweet accounts",tweet_accounts);
+      let tweets1 = await program.account.tweet.all();
+      console.log("tweet accounts",tweets1);
       console.log("provider.wallet.publicKey.toBuffer()",provider.wallet.publicKey.toBuffer());
       /*
       let tweetCountOfUser = 0;
