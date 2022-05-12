@@ -1,7 +1,7 @@
 [features]
 seeds = false
 [programs.devnet]
-on_chain_twitter = "5BAvFQDCEafYDwEdRut8VmFpQEA5gb78kSH55G82vMzB"
+on_chain_twitter = "5C9Wsr23aNXpRjumomx1aMLtEp1bYEjSw7LEUGDYAVPv"
 
 [registry]
 url = "https://anchor.projectserum.com"

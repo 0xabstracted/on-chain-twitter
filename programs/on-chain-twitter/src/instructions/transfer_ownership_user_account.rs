@@ -3,7 +3,6 @@ use crate::state::*;
 
 #[derive(Accounts)]
 pub struct TransferOwnershipUserAccount<'info>{
-    //#[account(mut, has_one= author, seeds = [b"twitter-user".as_ref(), author.key().as_ref()], bump = twitter_user.bump)]
     #[account(
         mut, 
         seeds = [b"twitter-user".as_ref(), author.key().as_ref()], 
